@@ -1,3 +1,6 @@
+from re import I
+
+
 HW_SOURCE_FILE=__file__
 
 
@@ -45,6 +48,10 @@ def g(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n <= 3:
+        return n
+    else:
+        return g(n-1) + 2*g(n-2) + 3*g(n-3)
     
 
 def g_iter(n):
@@ -66,6 +73,14 @@ def g_iter(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    g_1, g_2, g_3, i = 1, 2, 3, 3
+    if n <= 3:
+        return n
+    else:
+        while i < n:
+            g_3, g_2, g_1, i = g_3 + 2*g_2 + 3*g_1, g_3, g_2, i+1
+        return g_3
+
 
 
 def missing_digits(n):
@@ -96,6 +111,13 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    if n % 10 - n // 10 % 10 <= 1:
+        return missing_digits(n // 10)
+    else:
+        return missing_digits(n // 10) + (n % 10 - n // 10 % 10 - 1)
+
 
 
 def count_change(total):
@@ -115,6 +137,26 @@ def count_change(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    '''
+    def helper(n, m):
+        if m == 0:
+            return 1
+        elif n == 0:
+            return 1
+        elif n < (1 << m):
+            return helper(n, m - 1)
+        else:
+            return helper(n, m - 1) + helper(n - (1 << m), m)
+    return helper(total, 4)
+    '''
+    def helper(n, m):
+        if n == 0:
+            return 1
+        elif n < (1 << m):
+            return 0
+        else:
+            return helper(n, m + 1) + helper(n - (1 << m), m)
+    return helper(total, 0)
 
 
 def print_move(origin, destination):
